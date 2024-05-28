@@ -1,4 +1,4 @@
-# Importando as bibliotecas necessárias
+# Importando as bibliotecas
 import pandas as pd
 import numpy as np
 from keras.models import Sequential
@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
 
-# Conectando ao banco de dados MySQL
+# Conectando ao banco de dados
 conexao = mysql.connector.connect(
     host='localhost',
     user='aps',
@@ -22,20 +22,20 @@ conexao = mysql.connector.connect(
 
 cursor = conexao.cursor()
 
-# Função para consultar dados do banco de dados
+# Função para consultar a tabela no banco de dados
 def consultar_dados(cursor):
     cursor.execute("SELECT ph, dureza, turbidez, solido, condutividade, sulfato, potabilidade FROM sensores")
     dados = cursor.fetchall()
     return dados
 
-# Função para inserir o resultado da previsão no banco de dados
+# Função para inserir em uma tabela o resultado da previsão no banco de dados
 def inserir_resultado(cursor, conexao, resultado):
     query = "INSERT INTO resultadosia (resultado) VALUES (%s)"
     valores = (resultado,)
     cursor.execute(query, valores)
     conexao.commit()
 
-# Consultar dados do banco de dados
+# Consultar os dados tabela
 dados_completos = consultar_dados(cursor)
 
 # Converter os dados consultados em um DataFrame do pandas
@@ -43,24 +43,24 @@ df_completo = pd.DataFrame(dados_completos, columns=['ph', 'dureza', 'turbidez',
 
 df_completo = df_completo.dropna()
 
-# Separar as features e o target
+# Separar as colunas de treinamento e a coluna de teste
 X = df_completo.drop('potabilidade', axis=1).values
 y = df_completo['potabilidade'].values
 
-# Normalizando as features
+# Normalizando as tabelas
 scaler = StandardScaler()
 X = scaler.fit_transform(X)
 
 # Dividindo os dados em conjuntos de treino e teste
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state= 42)
 
-# Definindo o modelo
+# Definindo o modelo da IA
 model = Sequential()
 model.add(Dense(64, activation='relu', input_shape=(X_train.shape[1],)))
 model.add(Dense(32, activation='relu', input_shape=(X_train.shape[1],)))
 model.add(Dense(1, activation='sigmoid', input_shape=(X_train.shape[1],)))
 
-# Compilando o modelo
+# Compilando o modelo da IA
 opt = SGD(learning_rate=0.01)
 model.compile(optimizer='sgd', loss='mse', metrics=['accuracy'])
 
@@ -68,7 +68,7 @@ model.compile(optimizer='sgd', loss='mse', metrics=['accuracy'])
 history = model.fit(X_train, y_train, epochs=300, batch_size=32, validation_data=(X_test, y_test))
 
 
-# Plotando a acurácia de treino e teste
+# Colocando os dados da acurácia dentro de um gráfico de visualização
 plt.figure(figsize=(12, 4))
 
 plt.subplot(1, 2, 1)
@@ -90,10 +90,10 @@ plt.show()
 y_pred = model.predict(X_test)
 y_pred_classes = (y_pred > 0.5).astype(int)
 
-# Gerando a matriz de confusão
+# Gerando a matriz de confusão, pra saber quantos a IA acertou ou não
 cm = confusion_matrix(y_test, y_pred_classes)
 
-# Plotando a matriz de confusão
+# Criando a matriz de confusão
 plt.figure(figsize=(6, 6))
 sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
 plt.title('Matriz de Confusão')
