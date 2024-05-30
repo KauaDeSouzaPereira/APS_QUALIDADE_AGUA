@@ -10,6 +10,7 @@ from keras.optimizers import SGD
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
+from keras.models import load_model
 
 # Conectando ao banco de dados
 conexao = mysql.connector.connect(
@@ -33,6 +34,7 @@ def inserir_resultado(cursor, conexao, resultado):
     valores = (resultado,)
     cursor.execute(query, valores)
     conexao.commit()
+
 
 # Função para realizar a conexão do servidor de socket
 # def iniciar_servidor_socket():
@@ -92,15 +94,19 @@ y = df_completo['potabilidade'].values
 scaler = StandardScaler()
 X = scaler.fit_transform(X)
 
-# Definindo o modelo da IA
-model = Sequential()
-model.add(Dense(64, activation='relu', input_shape=(X.shape[1],)))
-model.add(Dense(32, activation='relu',))
-model.add(Dense(1, activation='sigmoid',))
+# Carregar o modelo se já existir, caso contrário, definir um novo modelo
+try:
+    model = load_model('meu_modelo.h5')
+except:
+    # Definindo o modelo da IA
+    model = Sequential()
+    model.add(Dense(64, activation='relu', input_shape=(X.shape[1],)))
+    model.add(Dense(32, activation='relu',))
+    model.add(Dense(1, activation='sigmoid',))
 
-# Compilando o modelo da IA
-opt = SGD(learning_rate=0.04)
-model.compile(optimizer=opt, loss='mean_squared_error', metrics=['accuracy'])
+    # Compilando o modelo da IA
+    opt = SGD(learning_rate=0.04)
+    model.compile(optimizer=opt, loss='mean_squared_error', metrics=['accuracy'])
 
 # Definindo a validação cruzada
 kfold = KFold(n_splits=5, shuffle=True, random_state=42)
@@ -121,6 +127,9 @@ for train, test in kfold.split(X, y):
     test_acc_histories.append(history.history['val_accuracy'])
     train_loss_histories.append(history.history['loss'])
     test_loss_histories.append(history.history['val_loss'])
+
+# Salvando o modelo
+model.save('meu_modelo.h5')
 
 # Calculando a acurácia e a perda média de treino e teste ao longo das épocas
 train_acc_mean = np.mean(train_acc_histories, axis=0)
