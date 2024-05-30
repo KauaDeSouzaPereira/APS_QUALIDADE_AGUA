@@ -8,3 +8,6 @@ Este projeto da APS (Atividades Práticas Supervisionadas) tem como objetivo des
  Para importar a base de dados pode ser feito de duas formas:
  - Importando e rodando a linha de comando + o arquivo csv; ou
  - Importando a base de dados pronta.
+ ** Arquivo CSV **
+   
+ [water_potability.csv](https://github.com/user-attachments/files/15506474/water_potability.csv)
