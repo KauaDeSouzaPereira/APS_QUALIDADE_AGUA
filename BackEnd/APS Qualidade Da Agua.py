@@ -108,7 +108,7 @@ model.compile(optimizer=opt, loss='mean_squared_error', metrics=['accuracy'])
 # Definindo a validação cruzada
 kfold = KFold(n_splits=5, shuffle=True, random_state=42)
 
-# Listas para armazenar as métricas de cada fold
+# Listas para armazenar as métricas
 train_acc_histories = []
 test_acc_histories = []
 train_loss_histories = []
