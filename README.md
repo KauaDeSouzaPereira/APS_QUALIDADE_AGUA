@@ -12,3 +12,10 @@ Este projeto da APS (Atividades Práticas Supervisionadas) tem como objetivo des
  **Arquivo CSV** 
    
  [water_potability.csv](https://github.com/user-attachments/files/15506474/water_potability.csv)
+
+
+ **Importante**
+
+ O código do Front End ainda está em desenvolvimento, aconteceu alguns erros no Node qualquer tipo de ajuda pra resolver isso eu agradeço, a pasta do Node_modules está zipada por conta de muitos arquivos.
+
+ Obrigado pela compreensão!!!
