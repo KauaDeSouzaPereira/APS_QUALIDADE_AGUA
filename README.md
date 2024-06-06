@@ -16,6 +16,6 @@ Este projeto da APS (Atividades Práticas Supervisionadas) tem como objetivo des
 
  **Importante**
 
- O código do Front End ainda está em desenvolvimento, aconteceu alguns erros no Node qualquer tipo de ajuda pra resolver isso eu agradeço, a pasta do Node_modules está zipada por conta de muitos arquivos.
+ O código do Front End ainda está em desenvolvimento, aconteceu alguns erros no Node qualquer tipo de ajuda pra resolver isso eu agradeço, mas o códido do Back End está criando gráficos de visualização da acurácia de treinos, testes e perda de testes e treino, a pasta do Node_modules está zipada por conta de muitos arquivos.
 
  Obrigado pela compreensão!!!
